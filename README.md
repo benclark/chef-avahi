@@ -18,6 +18,7 @@ Attributes
 * browse_domains: additional search domains, defaults to []
 * use_ipv4: defaults to true
 * use_ipv6: defaults to true
+* enable_reflector: defaults to false
 * allow_interfaces: list of interfaces to listen on defaults to [] (all interfaces)
 * deny_interfaces: list of interfaces to explicitly ignore defaults to [] (no interfaces)
 

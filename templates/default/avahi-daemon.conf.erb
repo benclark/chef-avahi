@@ -65,7 +65,9 @@ enable-wide-area=yes
 #publish-a-on-ipv6=no
 
 [reflector]
-#enable-reflector=no
+<%- if node[:avahi][:enable_reflector] -%>
+enable-reflector=<%= node[:avahi][:enable_reflector] %>
+<%- end -%>
 #reflect-ipv=no
 
 [rlimits]
