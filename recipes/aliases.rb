@@ -50,7 +50,7 @@ if platform_family?("debian")
     path "/etc/init.d/avahi-publish-aliases"
     mode "0755"
     notifies :enable, "service[avahi-publish-aliases]"
-    notifies :start, "service[avahi-publish-aliases]"
+    notifies :restart, "service[avahi-publish-aliases]", :immediately
   end
 
 else
