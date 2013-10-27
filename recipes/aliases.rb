@@ -19,6 +19,10 @@ if platform_family?("debian")
 
   include_recipe "git"
 
+  %w{ python-dbus python-avahi }.each do |pkg|
+    package pkg
+  end
+
   # Run the installer
   bash "install-avahi-aliases" do
     cwd "/usr/src/avahi-aliases"
