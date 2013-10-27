@@ -16,10 +16,10 @@
 # limitations under the License.
 #
 
-include_recipe "git"
-
 case node[:platform]
 when "ubuntu"
+
+  include_recipe "git"
 
   package 'avahi-daemon' do
     action :install
