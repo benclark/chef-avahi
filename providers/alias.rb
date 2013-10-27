@@ -1,16 +1,9 @@
 action :add do
 
-  bash "avahi-publish-alias-#{new_resource.name}" do
-    code <<-EOH
-      /usr/bin/avahi-publish-aliases
-    EOH
-    action :nothing
-  end
-
   file ::File.join('/etc/avahi/aliases.d',new_resource.name) do
     content new_resource.name
     action :create
-    notifies :run, resources(:bash => "avahi-publish-alias-#{new_resource.name}"), :immediately
+    notifies :restart, "service[avahi-publish-aliases]", :delayed
   end
 
 end

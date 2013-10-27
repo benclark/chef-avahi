@@ -18,62 +18,27 @@
 
 if platform_family?("debian")
 
-  include_recipe "git"
-
+  # Install the avahi-daemon package
   package 'avahi-daemon' do
     action :install
   end
 
+  # Start the avahi-daemon
   service 'avahi-daemon' do
     action :start
-    supports :restart => false
   end
 
-  %w{ python-dbus python-avahi }.each do |pkg|
-    package pkg
-  end
-
-  bash 'install-avahi-aliases' do
-    cwd '/usr/src/avahi-aliases'
-    code <<-EOH
-      ./install.sh
-    EOH
-    action :nothing
-  end
-
-  git '/usr/src/avahi-aliases' do
-    repo 'https://github.com/needle-cookbooks/avahi-aliases.git'
-    action :checkout
-    notifies :run, "bash[install-avahi-aliases]", :immediately
-  end
-
-  bash 'avahi-publish-aliases' do
-    code <<-EOH
-      /usr/bin/avahi-publish-aliases
-    EOH
-    action :nothing
-  end
-
+  # Config the avahi-daemon
   template '/etc/avahi/avahi-daemon.conf' do
     source 'avahi-daemon.conf.erb'
     owner 'root'
     group 'root'
     mode 0644
-    notifies :run, "bash[avahi-publish-aliases]", :immediately
     notifies :restart, "service[avahi-daemon]", :delayed
   end
 
-  # the purpose of this upstart 'service' is to publish any aliases at boot
-  cookbook_file '/etc/init/avahi-publish-aliases.conf' do
-    source 'upstart-avahi-publish-aliases'
-    mode '0644'
-    owner 'root'
-    group 'root'
-  end
-
-  service 'avahi-publish-aliases' do
-    action :start
-  end
+  # Install avahi-aliases
+  include_recipe "avahi::aliases"
 
 else
   Chef::Log.error("Your platform (#{node[:platform]}) is not supported.")

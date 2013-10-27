@@ -1,0 +1,33 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          avahi-publish-aliases
+# Required-Start:    $network $avahi-daemon
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: Publish aliases
+# Description:       Publish aliases via Avahi
+### END INIT INFO
+
+NAME=avahi-publish-aliases
+DAEMON=/usr/bin/avahi-publish-aliases
+
+[ -x "$DAEMON" ] || exit 0
+
+case "$1" in
+  start)
+  exec $DAEMON
+  ;;
+  stop|restart|force-reload)
+  exec $DAEMON
+  ;;
+  status)
+  # No-op
+  ;;
+  *)
+  echo "Usage: $NAME {start|stop|restart|force-reload}" >&2
+  exit 3
+  ;;
+esac
+
+:
