@@ -16,8 +16,7 @@
 # limitations under the License.
 #
 
-case node[:platform]
-when "ubuntu"
+if platform_family?("debian")
 
   include_recipe "git"
 
@@ -27,7 +26,6 @@ when "ubuntu"
 
   service 'avahi-daemon' do
     action :start
-    provider Chef::Provider::Service::Upstart
     supports :restart => false
   end
 
@@ -74,8 +72,7 @@ when "ubuntu"
   end
 
   service 'avahi-publish-aliases' do
-    provider Chef::Provider::Service::Upstart
-    action [:enable]
+    action :start
   end
 
 else
