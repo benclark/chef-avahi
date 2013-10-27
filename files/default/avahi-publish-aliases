@@ -1,7 +1,7 @@
 #! /bin/sh
 ### BEGIN INIT INFO
 # Provides:          avahi-publish-aliases
-# Required-Start:    $network $avahi-daemon
+# Required-Start:    $network $all
 # Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:
@@ -16,16 +16,16 @@ DAEMON=/usr/bin/avahi-publish-aliases
 
 case "$1" in
   start)
-  exec $DAEMON
+  $DAEMON
   ;;
-  stop|restart|force-reload)
-  exec $DAEMON
+  restart|force-reload)
+  $DAEMON
   ;;
-  status)
+  stop|status)
   # No-op
   ;;
   *)
-  echo "Usage: $NAME {start|stop|restart|force-reload}" >&2
+  echo "Usage: $NAME {start|restart|force-reload}" >&2
   exit 3
   ;;
 esac
