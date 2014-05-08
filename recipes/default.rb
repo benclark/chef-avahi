@@ -29,11 +29,6 @@ packages.each do |pkg|
   end
 end
 
-# Start the avahi-daemon
-service 'avahi-daemon' do
-  action :start
-end
-
 # Config the avahi-daemon
 template '/etc/avahi/avahi-daemon.conf' do
   source 'avahi-daemon.conf.erb'
@@ -41,6 +36,11 @@ template '/etc/avahi/avahi-daemon.conf' do
   group 'root'
   mode 0644
   notifies :restart, "service[avahi-daemon]", :delayed
+end
+
+# Start the avahi-daemon
+service 'avahi-daemon' do
+  action :start
 end
 
 # Install avahi-aliases
