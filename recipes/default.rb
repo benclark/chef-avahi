@@ -2,7 +2,7 @@
 # Cookbook Name:: avahi
 # Recipe:: default
 #
-# Copyright 2012, Needle, Inc.
+# Author::  Ben Clark (<ben@benclark.com>)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,30 +16,32 @@
 # limitations under the License.
 #
 
-if platform_family?("debian")
+case node['platform_family']
+when 'rhel', 'fedora'
+  packages = %w{ avahi nss-mdns }
+when 'debian'
+  packages = %w{ avahi-daemon }
+end
 
-  # Install the avahi-daemon package
-  package 'avahi-daemon' do
+packages.each do |pkg|
+  package pkg do
     action :install
   end
-
-  # Start the avahi-daemon
-  service 'avahi-daemon' do
-    action :start
-  end
-
-  # Config the avahi-daemon
-  template '/etc/avahi/avahi-daemon.conf' do
-    source 'avahi-daemon.conf.erb'
-    owner 'root'
-    group 'root'
-    mode 0644
-    notifies :restart, "service[avahi-daemon]", :delayed
-  end
-
-  # Install avahi-aliases
-  include_recipe "avahi::aliases"
-
-else
-  Chef::Log.error("Your platform (#{node[:platform]}) is not supported.")
 end
+
+# Start the avahi-daemon
+service 'avahi-daemon' do
+  action :start
+end
+
+# Config the avahi-daemon
+template '/etc/avahi/avahi-daemon.conf' do
+  source 'avahi-daemon.conf.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+  notifies :restart, "service[avahi-daemon]", :delayed
+end
+
+# Install avahi-aliases
+# @todo
