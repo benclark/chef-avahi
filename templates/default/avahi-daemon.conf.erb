@@ -45,11 +45,11 @@ enable-dbus=<%= node[:avahi][:enable_dbus] %>
 #clients-max=4096
 #objects-per-client-max=1024
 #entries-per-entry-group-max=32
-ratelimit-interval-usec=1000000
-ratelimit-burst=1000
+#ratelimit-interval-usec=1000000
+#ratelimit-burst=1000
 
 [wide-area]
-enable-wide-area=yes
+#enable-wide-area=yes
 
 [publish]
 #disable-publishing=no
@@ -72,9 +72,9 @@ enable-reflector=<%= node[:avahi][:enable_reflector] %>
 
 [rlimits]
 #rlimit-as=
-rlimit-core=0
-rlimit-data=4194304
-rlimit-fsize=0
-rlimit-nofile=768
-rlimit-stack=4194304
-rlimit-nproc=3
+#rlimit-core=0
+#rlimit-data=4194304
+#rlimit-fsize=0
+#rlimit-nofile=768
+#rlimit-stack=4194304
+#rlimit-nproc=3
