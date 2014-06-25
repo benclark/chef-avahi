@@ -39,7 +39,7 @@ deny-interfaces=<%= node[:avahi][:deny_interfaces].join(',') %>
 #check-response-ttl=no
 #use-iff-running=no
 enable-dbus=<%= node[:avahi][:enable_dbus] %>
-#disallow-other-stacks=no
+disallow-other-stacks=<%= node[:avahi][:disallow_other_stacks] %>
 #allow-point-to-point=no
 #cache-entries-max=4096
 #clients-max=4096
